@@ -3,12 +3,128 @@
   <head>
     <title> <%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"  rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
   </head>
+
   <body>
-    <h1> <%=title%> </h1>
+
+    <div class="Izquierda">
+
+      <div class="personal">
+      <img class="perfil" src="/foto.jpg" alt="yo">
+        <div id="datos">
+            <p><b>Sexo:</b> Masculino</p>
+            <p><b>Edad:</b> 21 años</p>
+        </div>
+<br>
+        <div id="habilidades">
+          <h3 class="deco1"><b>Habilidades</b></h3>
+          <ul>
+            <li>Aprendizaje rapido</li>
+            <li>Trabajo bajo presion</li>
+            <li>Conocientos estandar de computacion</li>
+            <li>Conocimientos medio de mantenimiento de software y hardware de computacion</li>
+            <li>Analitico</li>
+          </ul>
+        </div>
+<br>
+<h3 class="deco1"> <b>Cursos Realizados</b></h3>
+    <ul>
+      <li>JavaScript (abril de 2023): 
+    Curso de Maestría Intermedia en el 
+      Lenguaje de programación JAVASCRIPT </li>
+    <br>
+      <li>Css (Abril 2023):  
+    Curso completo de maestría y gestión 
+    en el lenguaje de diseño CSS</li>
+    <br>
+      <li> Html (abril de 2023): 
+    Curso completo de maestría y manejo en 
+    el lenguaje de diseño HTML</li>
+    </ul>
+        <div id="Lenguaje">
+          <h3 class="deco1"><b>Idiomas</b></h3>
+          <p>Español</p>
+          <p>Ingles</p>
+        </div>
+        <br>
+        <div id="Contacto">
+          <h3 class="deco1"><b>Contacto</b></h3>
+          <nav class="iconos">
+            <a href="https://www.facebook.com/profile.php?id=100080370456271L" title="Facebook">
+              <button>
+                <img class="icon" src="https://th.bing.com/th/id/R.70ecfdd862bdc3fdbf5715085812f49e?rik=fDJPk4oWTEisvw&pid=ImgRaw&r=0" alt="Facebook">
+              </button>
+            </a>
+            
+            <a href="https://github.com/Anibal-Oro" title="GitHub">
+              <button>
+                <img class="icon" src="https://th.bing.com/th/id/R.7a864f07681f187fb572468bfc949977?rik=EyUQGBjtSbMjVw&riu=http%3a%2f%2fpngimg.com%2fuploads%2fgithub%2fgithub_PNG80.png&ehk=sCQlSHnb7Wc8WNPgOilokXbf8jL4g20yv7QFEFpl6ko%3d&risl=&pid=ImgRaw&r=0" alt="GitHub">
+              </button>
+            </a>
+
+            <a href="mailto:emiloropeza4@gmail.com" titlle="Gmail">
+              <button>
+            <img class="icon" src="https://th.bing.com/th/id/R.7ac3e2d5fc34a355466fe4e8da93897a?rik=HlVUjax%2bPD9vjw&riu=http%3a%2f%2ffreelogopng.com%2fimages%2fall_img%2f1657906169gmail-logo-png.png&ehk=nxw0XMEkG2L3LSISLY6661%2fgARUJZBG3eZMw8dOSOEs%3d&risl=&pid=ImgRaw&r=0" alt="emiloropeza4@gmail.com">
+          </button>
+          </a>
+          </nav>
+        </div>
+        
+      </div>
+    </div>
+
+    <div class="Derecha">
+
+      <div id="yo">
+        <h1 class="deco"> Emil Anibal Oropeza Hernandez </h1>
+        <h4> Programador Junior</h4>
+        <br>
+        <h3 class="deco"> Acerca de mi </h3>
+        <div>
+          <p>   Me desenpeño en roles altamente competitivos para mejorar mis conocimientos mientras le soy de ayuda a la empresa a seguir adelante.
+          No concidero que exita algo imposible de hacer, sino personas no dispuertas a hacerlas. Conocedor en areas informaticas y rapido aprendizaje con compromiso de equipo y toma rapidad de decicioiones.
+        </p> 
+        </div>
+      </div>
+<br>
+      <div id="trabajos">
+        <h3 class="deco">Experencia Laboral</h3>
+        <ul>
+          <li><b>Indutria PET Aragua C.A</b></li>
+            <p>Cargo: Operador de maquinaria </p>
+            <p> Octubre 2020 - Enero 2022</p>
+          <br>
+          <li><b>Charcuteria y Pasteleria El Pan del Rey I C.A</b></li>
+          <p> Cargo: Barrista, Hornero, Ayudante</p>
+          <p> Mayo 2022 - Octubre 2023</p>
+          <br>
+          <li><b>Sistemas Tecnologicos Alcaravan</b>
+            <p>Preparador de Matematica 1 en la UNERG</p> 
+            <p>Marzo 2023 - Presente</p></li>
+        </ul>
+      </div>
+<br>
+      <div id="estudios">
+        <h3 class="deco"> <b>Estudios Realizados</b></h3>
+        <ul>
+          <li><b>Educacion Secundaria</b></li>
+          <p> U.E.N "Taguanes" <br> Bachiller en Ciencias</p>
+          <br>
+          <li><b>Educacion Universitaria</b></li>
+          <p> Universidad Nacional Experimetal De Los Llanos Centrales "Romulo Gallegos" <br> Cursante del 4to Semstre de ingenieria en Sistemas</p>
+        </ul>
+      </div>
+    </div>
+
+ <template> 
+    <!--<h1> <%=title%> </h1>
     <h3>Bienvenido Alumno</h3>
     <p><b>Nombre y Apellido:</b> <%=nombre%> 
       <%=apellido%> </p>
     <p><b>Cedula:</b> <%=cedula%></p>
+    -->
+  </template>
   </body>
 </html>
