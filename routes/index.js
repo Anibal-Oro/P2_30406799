@@ -9,4 +9,10 @@ apellido: "Oropeza",
 cedula: 30406799, });
 });
 
+
+const ContactosControllers = require ("../controller/ContactosControllers");
+const contactosControllers = new ContactosControllers();
+
+router.post('/formulario', contactosControllers.add)
+
 module.exports = router;
