@@ -17,8 +17,18 @@ class ContactosController {
 
     const ip = req.ip;
     const fecha = new Date().toISOString();
+    const api = 'https://ipinfo.io/json?9975e8e16232a8';
+    async function fetchText() {
+    let url = api;
+    let response = await fetch(url);
+    let data = await response. json();
+    const pais= data.country;
+    console. log(data);
+    console.log(data.country)
+    }
+    fetchText(); 
 
-    await this.contactosModel.crearContactos(nombre, email, mensaje, ip, fecha);
+    await this.contactosModel.crearContactos(nombre, email, mensaje, ip, fecha, pais);
     
     /*const contactos = await this.contactosModel.obtenerAllContactos();
     console.log(contactos);*/

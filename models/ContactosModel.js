@@ -12,7 +12,7 @@ class ContactosModel {
     });
 
     this.db.run(
-      "CREATE TABLE IF NOT EXISTS Contactos (nombre TEXT, email TEXT, mensaje TEXT, ip TEXT, fecha TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT)",
+      "CREATE TABLE IF NOT EXISTS Contactos (nombre TEXT, email TEXT, mensaje TEXT, ip TEXT, fecha TEXT, pais TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT)",
       (err) => {
         if (err) {
           console.error(err.message);
@@ -22,10 +22,10 @@ class ContactosModel {
     );
   }
 
-  crearContactos(nombre, email, mensaje, ip, fecha) {
+  crearContactos(nombre, email, mensaje, ip, fecha, pais) {
     return new Promise((resolve, reject) => {
-      const sql = `INSERT INTO Contactos (nombre, email, mensaje, ip, fecha) VALUES (?, ?, ?, ?, ?)`;
-      this.db.run(sql, [nombre, email, mensaje, ip, fecha], function (err) {
+      const sql = `INSERT INTO Contactos (nombre, email, mensaje, ip, fecha, pais) VALUES (?, ?, ?, ?, ?)`;
+      this.db.run(sql, [nombre, email, mensaje, ip, fecha, pais], function (err) {
         if (err) {
           console.error(err.message);
           reject(err);
@@ -35,6 +35,7 @@ class ContactosModel {
       });
     });
   }
+
 
   async obtenerContactos(email) {
     const sql = `SELECT * FROM contactos WHERE email = ?`;
@@ -56,4 +57,5 @@ async eliminarContactos (email){
     return await this.db.table("Contactos").delete().where({email})
 }
 };
+
 module.exports = ContactosModel;

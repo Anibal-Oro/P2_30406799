@@ -5,6 +5,15 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"  rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- Google tag (gtag.js) -->
+   <script async src="https://www.googletagmanager.com/gtag/js?id=G-45QEVS4KZM"></script>
+   <script>
+     window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-45QEVS4KZM');
+  </script>
   </head>
 
   <body>
@@ -134,8 +143,58 @@
         <input type="text" name="nombre" id="nombre" placeholder="Nombre" required>
         <input type="email" name="email" id="email" placeholder="Email">
         <textarea name="mensaje" id="mensaje" cols="20" rows="5" placeholder="Comentario" required ></textarea>
+        <div class="contac"> 
+          <div class="g-recaptcha"  data-sitekey="6Ld2T-0pAAAAANwIiMiarPtXDaj-D1JiehXoAtbR" ></div>
+        </div>
+       <script>
+      const recaptcha = require('recaptcha');
+      router.post('/contact', (req, res) => {
+      const recaptchaResponse = req.body['g-recaptcha-response'];
+      const secretKey = "6Ld2T-0pAAAAANwIiMiarPtXDaj-D1JiehXoAtbR";
+  
+      recaptcha.verify(recaptchaResponse, secretKey, (err, data) => {
+      if (err) {
+        res.status(400).send('Error al verificar reCAPTCHA');
+      } else { }
+      });
+      });
+      </script>
         <input type="submit" value="Enviar">
       </form>
       </div>
     </footer>
+    "6LcawVQcAAAAAI--VXZ3ShORKWJnwqSWy2y1ZRms"
+<script>
+    const nodemailer = require('nodemailer');
+    
+    router.post('/register', (req, res) => {
+      const user = req.body;
+      const transporter = nodemailer.createTransport({
+        host: 'mtp.gmail.com',
+        port: 587,
+        secure: false, // or 'STARTTLS'
+        auth: {
+          user: 'tu-correo-electronico@gmail.com',
+          pass: process.env.EMAIL_PASSWORD
+        }
+      });
+    
+      const mailOptions = {
+        from: 'tu-correo-electronico@gmail.com',
+        to: 'programacion2ais@dispostable.com, otros-destinatarios@example.com',
+        subject: 'Nuevo registro',
+        text: `Nombre: ${user.name}\nCorreo electrónico: ${user.email}\nPaís: ${user.country}`
+      };
+    
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error al enviar correo electrónico');
+        } else {
+          res.send('Correo electrónico enviado correctamente');
+        }
+      });
+    });
+  </script>
+
 </html>
