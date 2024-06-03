@@ -128,14 +128,6 @@
       </div>
     </div>
 
- <template> 
-    <!--<h1> <%=title%> </h1>
-    <h3>Bienvenido Alumno</h3>
-    <p><b>Nombre y Apellido:</b> <%=nombre%> 
-      <%=apellido%> </p>
-    <p><b>Cedula:</b> <%=cedula%></p>
-    -->
-  </template>
   </body>
 
 <footer>
@@ -144,28 +136,40 @@
         <input type="text" name="nombre" id="nombre" placeholder="Nombre" required>
         <input type="email" name="email" id="email" placeholder="Email">
         <textarea name="mensaje" id="mensaje" cols="20" rows="5" placeholder="Comentario" required ></textarea>
-        <div class="contac"> 
           <div class="g-recaptcha"  data-sitekey="6Ld2T-0pAAAAANwIiMiarPtXDaj-D1JiehXoAtbR" ></div>
-        </div>
        <script>
-      const recaptcha = require('recaptcha');
-      router.post('/contact', (req, res) => {
-      const recaptchaResponse = req.body['g-recaptcha-response'];
-      const secretKey = "6Ld2T-0pAAAAANwIiMiarPtXDaj-D1JiehXoAtbR";
+        const recaptcha = require('recaptcha');
+        router.post('/contact', (req, res) => {
+        const recaptchaResponse = req.body['g-recaptcha-response'];
+        const secretKey = "6Ld2T-0pAAAAANwIiMiarPtXDaj-D1JiehXoAtbR";
   
-      recaptcha.verify(recaptchaResponse, secretKey, (err, data) => {
-      if (err) {
+        recaptcha.verify(recaptchaResponse, secretKey, (err, data) => {
+        if (err) {
         res.status(400).send('Error al verificar reCAPTCHA');
-      } else { }
-      });
-      });
+        } else { }
+        });
+       });
       </script>
         <input type="submit" value="Enviar">
       </form>
       </div>
     </footer>
-    "6LcawVQcAAAAAI--VXZ3ShORKWJnwqSWy2y1ZRms"
+
 <script>
+
+    const api = 'https://ipinfo.io/json?9975e8e16232a8';
+    async function fetchText() {
+    let url = api;
+    let response = await fetch(url);
+    let data = await response. json();
+    const pais= data.country;
+    //console. log(data);
+    console.log(data.country)
+    }
+    fetchText(); 
+
+
+
     const nodemailer = require('nodemailer');
     
     router.post('/register', (req, res) => {
@@ -173,18 +177,18 @@
       const transporter = nodemailer.createTransport({
         host: 'mtp.gmail.com',
         port: 587,
-        secure: false, // or 'STARTTLS'
+        secure: false,
         auth: {
-          user: 'tu-correo-electronico@gmail.com',
-          pass: process.env.EMAIL_PASSWORD
+          user: '19-10569@usb.ve',
+          pass: 'Pokemon2+',
         }
       });
     
       const mailOptions = {
-        from: 'tu-correo-electronico@gmail.com',
-        to: 'programacion2ais@dispostable.com, otros-destinatarios@example.com',
-        subject: 'Nuevo registro',
-        text: `Nombre: ${user.name}\nCorreo electrónico: ${user.email}\nPaís: ${user.country}`
+        from: '19-10569@usb.ve',
+        to: 'programacion2ais@dispostable.com',
+        subject: 'Informacion del Contacto',
+        text: `Nombre: ${user.nombre}\nCorreo electrónico: ${user.email}\nComentario ${user.mensaje} \nip ${user.ip} \nFecha ${user.fecha}\nPaís: ${user.country}`
       };
     
       transporter.sendMail(mailOptions, (err, info) => {

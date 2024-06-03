@@ -12,7 +12,7 @@ class ContactosModel {
     });
 
     this.db.run(
-      "CREATE TABLE IF NOT EXISTS Contactos (nombre TEXT, email TEXT, mensaje TEXT, ip TEXT, fecha TEXT, pais TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT)",
+      "CREATE TABLE IF NOT EXISTS Contactos (nombre TEXT, email TEXT, mensaje TEXT, pais TEXT, ip TEXT, fecha TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT)",
       (err) => {
         if (err) {
           console.error(err.message);
@@ -22,10 +22,10 @@ class ContactosModel {
     );
   }
 
-  crearContactos(nombre, email, mensaje, ip, fecha, pais) {
+  crearContactos(nombre, email, mensaje, pais, ip, fecha) {
     return new Promise((resolve, reject) => {
-      const sql = `INSERT INTO Contactos (nombre, email, mensaje, ip, fecha, pais) VALUES (?, ?, ?, ?, ?)`;
-      this.db.run(sql, [nombre, email, mensaje, ip, fecha, pais], function (err) {
+      const sql = `INSERT INTO Contactos (nombre, email, mensaje, pais, ip, fecha) VALUES (?, ?, ?, ?, ?, ?)`;
+      this.db.run(sql, [nombre, email, mensaje, pais, ip, fecha], function (err) {
         if (err) {
           console.error(err.message);
           reject(err);

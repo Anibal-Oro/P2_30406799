@@ -8,7 +8,7 @@ class ContactosController {
 
   async add(req, res) {
 
-    const { nombre, email, mensaje } = req.body;
+    const { nombre, email, mensaje, pais } = req.body;
 
     if (!nombre || !email || !mensaje) {
       res.status(400).send("Faltan datos requeridos");
@@ -17,18 +17,9 @@ class ContactosController {
 
     const ip = req.ip;
     const fecha = new Date().toISOString();
-    const api = 'https://ipinfo.io/json?9975e8e16232a8';
-    async function fetchText() {
-    let url = api;
-    let response = await fetch(url);
-    let data = await response. json();
-    const pais= data.country;
-    console. log(data);
-    console.log(data.country)
-    }
-    fetchText(); 
+    //const pais= data.country; 
 
-    await this.contactosModel.crearContactos(nombre, email, mensaje, ip, fecha, pais);
+    await this.contactosModel.crearContactos(nombre, email, mensaje, pais, ip, fecha);
     
     /*const contactos = await this.contactosModel.obtenerAllContactos();
     console.log(contactos);*/
