@@ -1,4 +1,7 @@
 const ContactosModel = require("../models/ContactosModel");
+const nodemailer = require('nodemailer');
+require('dotenv').config();
+//const secretGoogle = process.env.token2;
 
 class ContactosController {
   constructor() {
@@ -6,45 +9,67 @@ class ContactosController {
     this.add = this.add.bind(this);
   }
 
+  async obtenerIp() {
+    try {
+      const response = await fetch('https://api.ipify.org?format=json');
+      const data = await response.json();
+      return data.ip; // Retorna la ip
+    } catch (error) {
+      console.error('Error al obtener la ip:', error);
+      return null; // Retorna null si hay un error
+    }
+  }
+
+  async obtenerPais(ip) {
+  try {
+    const response = await fetch('https://ipinfo.io/json?9975e8e16232a8');
+    const data = await response.json();
+    return data.country; // Retorna el país
+  } catch (error) {
+    console.error('Error al obtener el país:', error);
+    return null; // Retorna null si hay un error
+    }
+  }
+
   async add(req, res) {
 
     const responseGoogle = req.body["g-recaptcha-response"];
-    const secretGoogle = "6Ld2T-0pAAAAAEh4WKrCI1MjS7Tq7ZCxj-0IqqvE";
+    const secretGoogle = process.env.token2;
     const urlGoogle = `https://www.google.com/recaptcha/api/siteverify?secret=${secretGoogle}&response=${responseGoogle}`;
     const RecaptchaGoogle = await fetch(urlGoogle, { method: "post", });
     const google_response_result = await RecaptchaGoogle.json();
     console.log(google_response_result)
     if (google_response_result.success == true) {
 
-    const { nombre, email, mensaje, pais } = req.body;
+    const { nombre, email, mensaje } = req.body;
 
-    if (!nombre || !email || !mensaje || !pais) {
+    if (!nombre || !email || !mensaje) {
       res.status(400).send("Faltan datos requeridos");
       return;
     }
 
-    const ip = req.ip;
+    const ip = await this.obtenerIp();
     const fecha = new Date().toISOString();
-    //const pais= data.country; 
+    const pais = await this.obtenerPais(ip); 
 
-    const nodemailer = require('nodemailer');
-    router.post('/register', (req, res) => {
-      const user = req.body;
       const transporter = nodemailer.createTransport({
-        host: 'mtp.gmail.com',
-        port: 587,
+        host: "mtp.gmail.com",
         secure: false,
+        port: 587,
+        tls: {
+          ciphers: 'SSLv3'
+        },
         auth: {
-          user: '19-10569@usb.ve',
-          pass: 'Pokemon2+',
+          user: process.env.email,
+          pass: process.env.clave
         }
       });
     
       const mailOptions = {
-        from: '19-10569@usb.ve',
+        from: process.env.email,
         to: 'programacion2ais@dispostable.com',
         subject: 'Informacion del Contacto',
-        text: `Nombre: ${user.nombre}\nCorreo electrónico: ${user.email}\nComentario ${user.mensaje} \nip ${user.ip} \nFecha ${user.fecha}\nPaís: ${user.country}`
+        text: `Nombre: ${nombre}\nCorreo electrónico: ${email}\nComentario ${mensaje} \nip ${ip} \nFecha ${fecha}\nPaís: ${pais}`
       };
     
       transporter.sendMail(mailOptions, (err, info) => {
@@ -55,7 +80,6 @@ class ContactosController {
           res.send('Correo electrónico enviado correctamente');
         }
       });
-    });
 
     await this.contactosModel.crearContactos(nombre, email, mensaje, pais, ip, fecha);
     

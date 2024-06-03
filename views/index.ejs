@@ -136,7 +136,7 @@
         <input type="text" name="nombre" id="nombre" placeholder="Nombre" required>
         <input type="email" name="email" id="email" placeholder="Email">
         <textarea name="mensaje" id="mensaje" cols="20" rows="5" placeholder="Comentario" required ></textarea>
-          <div class="g-recaptcha"  data-sitekey="6Ld2T-0pAAAAANwIiMiarPtXDaj-D1JiehXoAtbR" ></div>
+          <div class="g-recaptcha"  data-sitekey= "6Ld2T-0pAAAAANwIiMiarPtXDaj-D1JiehXoAtbR"></div>
         <input type="submit" value="Enviar">
       </form>
       </div>
@@ -149,9 +149,11 @@
     let url = api;
     let response = await fetch(url);
     let data = await response. json();
+    const ipyo= data.ip;
     const pais= data.country;
-    //console. log(data);
-    console.log(data.country)
+    console. log(data);
+    console.log(pais);
+    console.log(ipyo);
     }
     fetchText(); 
   </script>
