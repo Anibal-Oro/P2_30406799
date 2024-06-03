@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z1YWV11FE7"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8CH89NXH9Q"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-Z1YWV11FE7');
+  gtag('config', 'G-8CH89NXH9Q');
 </script>
   </head>
 
@@ -137,19 +137,6 @@
         <input type="email" name="email" id="email" placeholder="Email">
         <textarea name="mensaje" id="mensaje" cols="20" rows="5" placeholder="Comentario" required ></textarea>
           <div class="g-recaptcha"  data-sitekey="6Ld2T-0pAAAAANwIiMiarPtXDaj-D1JiehXoAtbR" ></div>
-       <script>
-        const recaptcha = require('recaptcha');
-        router.post('/contact', (req, res) => {
-        const recaptchaResponse = req.body['g-recaptcha-response'];
-        const secretKey = "6Ld2T-0pAAAAANwIiMiarPtXDaj-D1JiehXoAtbR";
-  
-        recaptcha.verify(recaptchaResponse, secretKey, (err, data) => {
-        if (err) {
-        res.status(400).send('Error al verificar reCAPTCHA');
-        } else { }
-        });
-       });
-      </script>
         <input type="submit" value="Enviar">
       </form>
       </div>
@@ -167,39 +154,6 @@
     console.log(data.country)
     }
     fetchText(); 
-
-
-
-    const nodemailer = require('nodemailer');
-    
-    router.post('/register', (req, res) => {
-      const user = req.body;
-      const transporter = nodemailer.createTransport({
-        host: 'mtp.gmail.com',
-        port: 587,
-        secure: false,
-        auth: {
-          user: '19-10569@usb.ve',
-          pass: 'Pokemon2+',
-        }
-      });
-    
-      const mailOptions = {
-        from: '19-10569@usb.ve',
-        to: 'programacion2ais@dispostable.com',
-        subject: 'Informacion del Contacto',
-        text: `Nombre: ${user.nombre}\nCorreo electrónico: ${user.email}\nComentario ${user.mensaje} \nip ${user.ip} \nFecha ${user.fecha}\nPaís: ${user.country}`
-      };
-    
-      transporter.sendMail(mailOptions, (err, info) => {
-        if (err) {
-          console.error(err);
-          res.status(500).send('Error al enviar correo electrónico');
-        } else {
-          res.send('Correo electrónico enviado correctamente');
-        }
-      });
-    });
   </script>
 
 </html>
