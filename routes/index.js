@@ -6,6 +6,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: "Programacion 2, Sección 2", 
 nombre: "Emil",
 apellido: "Oropeza",
+token1: process.env.toke1,
 cedula: 30406799, });
 });
 

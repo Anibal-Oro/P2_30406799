@@ -34,12 +34,12 @@ class ContactosController {
   async add(req, res) {
 
     const responseGoogle = req.body["g-recaptcha-response"];
-    const secretGoogle = process.env.token2;
+    const secretGoogle = '6Ld2T-0pAAAAAEh4WKrCI1MjS7Tq7ZCxj-0IqqvE';
     const urlGoogle = `https://www.google.com/recaptcha/api/siteverify?secret=${secretGoogle}&response=${responseGoogle}`;
     const RecaptchaGoogle = await fetch(urlGoogle);
     const google_response_result = await RecaptchaGoogle.json();
     console.log(google_response_result)
-    if (google_response_result.success == true) {
+    if (google_response_result.success == true) { 
 
     const { nombre, email, mensaje } = req.body;
 
