@@ -53,7 +53,7 @@ class ContactosController {
     const pais = await this.obtenerPais(ip); 
 
       const transporter = nodemailer.createTransport({
-        host: "mtp.gmail.com",
+        host: "smtp.gmail.com",
         secure: false,
         port: 587,
         tls: {
