@@ -52,34 +52,7 @@ class ContactosController {
     const fecha = new Date().toISOString();
     const pais = await this.obtenerPais(ip); 
 
-      const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        secure: false,
-        port: 587,
-        tls: {
-          ciphers: 'SSLv3'
-        },
-        auth: {
-          user: process.env.email,
-          pass: process.env.clave
-        }
-      });
-    
-      const mailOptions = {
-        from: process.env.email,
-        to: 'programacion2ais@dispostable.com',
-        subject: 'Informacion del Contacto',
-        text: `Nombre: ${nombre}\nCorreo electrónico: ${email}\nComentario ${mensaje} \nip ${ip} \nFecha ${fecha}\nPaís: ${pais}`
-      };
-    
-      transporter.sendMail(mailOptions, (err, info) => {
-        if (err) {
-          console.error(err);
-          res.status(500).send('Error al enviar correo electrónico');
-        } else {
-          res.send('Correo electrónico enviado correctamente');
-        }
-      });
+      
 
     await this.contactosModel.crearContactos(nombre, email, mensaje, pais, ip, fecha);
     
@@ -90,6 +63,36 @@ class ContactosController {
   } else {
     res.send('Verifica el captcha para avanzar')
   }
+}
+async nodemailer(req, res){
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    secure: false,
+    port: 587,
+    tls: {
+      ciphers: 'SSLv3'
+    },
+    auth: {
+      user: process.env.email,
+      pass: process.env.clave
+    }
+  });
+
+  const mailOptions = {
+    from: process.env.email,
+    to: 'programacion2ais@dispostable.com',
+    subject: 'Informacion del Contacto',
+    text: `Nombre: ${nombre}\nCorreo electrónico: ${email}\nComentario ${mensaje} \nip ${ip} \nFecha ${fecha}\nPaís: ${pais}`
+  };
+
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error al enviar correo electrónico');
+    } else {
+      res.send('Correo electrónico enviado correctamente');
+    }
+  });
 }
 }
 
