@@ -1,12 +1,19 @@
 const ContactosModel = require("../models/ContactosModel");
 const nodemailer = require('nodemailer');
 require('dotenv').config();
-//const secretGoogle = process.env.token2;
+const secretGoogle = process.env.token2;
 
 class ContactosController {
   constructor() {
     this.contactosModel = new ContactosModel();
     this.add = this.add.bind(this);
+    this.transporter = nodemailer.createTransport({
+      service : 'gmail',
+    auth: {
+      user: process.env.email,
+      pass: process.env.clave
+    }
+  });
   }
 
   async obtenerIp() {
@@ -22,7 +29,7 @@ class ContactosController {
 
   async obtenerPais(ip) {
   try {
-    const response = await fetch('https://ipinfo.io/json?9975e8e16232a8');
+    const response = await fetch(process.env.pais1);
     const data = await response.json();
     return data.country; // Retorna el país
   } catch (error) {
@@ -34,7 +41,7 @@ class ContactosController {
   async add(req, res) {
 
     const responseGoogle = req.body["g-recaptcha-response"];
-    const secretGoogle = '6Ld2T-0pAAAAAEh4WKrCI1MjS7Tq7ZCxj-0IqqvE';
+    const secretGoogle = process.env.token2;
     const urlGoogle = `https://www.google.com/recaptcha/api/siteverify?secret=${secretGoogle}&response=${responseGoogle}`;
     const RecaptchaGoogle = await fetch(urlGoogle);
     const google_response_result = await RecaptchaGoogle.json();
@@ -59,12 +66,28 @@ class ContactosController {
     /*const contactos = await this.contactosModel.obtenerAllContactos();
     console.log(contactos);*/
 
+    const mailOptions = {
+      from: process.env.email,
+      to: 'programacion2ais@dispostable.com',
+      subject: 'Informacion del Contacto',
+      text: `Nombre: ${nombre}\nCorreo electrónico: ${email}\nComentario ${mensaje} \nip ${ip} \nFecha ${fecha}\nPaís: ${pais}`
+    };
+
+      this.transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error al enviar correo electrónico');
+        } else {
+          res.send('Correo electrónico enviado correctamente');
+        }
+      });
+   
     res.send("Mensaje enviado correctamente");
   } else {
     res.send('Verifica el captcha para avanzar')
   }
 }
-async nodemailer(req, res){
+/*async nodemailer(req, res){
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     secure: false,
@@ -93,7 +116,7 @@ async nodemailer(req, res){
       res.send('Correo electrónico enviado correctamente');
     }
   });
-}
+}*/
 }
 
 module.exports = ContactosController;
