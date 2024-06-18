@@ -1,5 +1,7 @@
 const sqlite3 = require("sqlite3").verbose();
 const { promisify } = require("util");
+var express = require('express');
+var router = express.Router();
 
 class ContactosModel {
   constructor() {
@@ -38,13 +40,13 @@ class ContactosModel {
 
 
   async obtenerContactos(email) {
-    const sql = `SELECT * FROM contactos WHERE email = ?`;
+    const sql = `SELECT * FROM Contactos WHERE email = ?`;
     const get = promisify(this.db.get).bind(this.db);
     return await get(sql, [email]);
   }
 
   async obtenerAllContactos() {
-    const sql = `SELECT * FROM contactos`;
+    const sql = `SELECT * FROM Contactos`;
     const all = promisify(this.db.all).bind(this.db);
     return await all(sql);
   }
@@ -57,5 +59,15 @@ async eliminarContactos (email){
     return await this.db.table("Contactos").delete().where({email})
 }
 };
+
+router.post('Contactos', (req, res) => {
+  let sql = 'SELECT * FROM Contactos';
+  db.all(sql, (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    res.render('Contactos', { sql: rows });
+  });
+});
 
 module.exports = ContactosModel;

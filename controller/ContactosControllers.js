@@ -1,12 +1,29 @@
 const ContactosModel = require("../models/ContactosModel");
 const nodemailer = require('nodemailer');
-require('dotenv').config();
+const dotenv = require('dotenv').config();
+require('dotenv').config()
 //const secretGoogle = process.env.token2;
+const CORREO = process.env.CORREO;
+const CLAVE = process.env.CLAVE;
 
 class ContactosController {
   constructor() {
     this.contactosModel = new ContactosModel();
     this.add = this.add.bind(this);
+    this.list = this.list.bind(this)
+    this.transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      secure: false,
+      port: 587,
+      tls: {
+        ciphers: 'SSLv3'
+      },
+      auth: {
+        user: CORREO,
+        pass: CLAVE,
+      }
+    });
+    console.log('ContactosModel inicializado:', this.contactosModel); // Verificar inicialización
   }
 
   async obtenerIp() {
@@ -17,8 +34,8 @@ class ContactosController {
     } catch (error) {
       console.error('Error al obtener la ip:', error);
       return null; // Retorna null si hay un error
-    }
-  }
+}
+}
 
   async obtenerPais(ip) {
   try {
@@ -28,13 +45,13 @@ class ContactosController {
   } catch (error) {
     console.error('Error al obtener el país:', error);
     return null; // Retorna null si hay un error
-    }
-  }
+}
+}
 
   async add(req, res) {
 
     const responseGoogle = req.body["g-recaptcha-response"];
-    const secretGoogle = '6Ld2T-0pAAAAAEh4WKrCI1MjS7Tq7ZCxj-0IqqvE';
+    const secretGoogle = process.env.TOKEN2;
     const urlGoogle = `https://www.google.com/recaptcha/api/siteverify?secret=${secretGoogle}&response=${responseGoogle}`;
     const RecaptchaGoogle = await fetch(urlGoogle);
     const google_response_result = await RecaptchaGoogle.json();
@@ -64,22 +81,10 @@ class ContactosController {
     res.send('Verifica el captcha para avanzar')
   }
 }
-async nodemailer(req, res){
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    secure: false,
-    port: 587,
-    tls: {
-      ciphers: 'SSLv3'
-    },
-    auth: {
-      user: process.env.email,
-      pass: process.env.clave
-    }
-  });
 
+async nodemailer(req, res, CORREO){
   const mailOptions = {
-    from: process.env.email,
+    from: CORREO,
     to: 'programacion2ais@dispostable.com',
     subject: 'Informacion del Contacto',
     text: `Nombre: ${nombre}\nCorreo electrónico: ${email}\nComentario ${mensaje} \nip ${ip} \nFecha ${fecha}\nPaís: ${pais}`
@@ -94,6 +99,18 @@ async nodemailer(req, res){
     }
   });
 }
+
+async list(req, res) {
+  try {
+    console.log('ContactosModel en list:', this.contactosModel); // Verificar inicialización
+    const contactos = await this.contactosModel.obtenerAllContactos();
+    res.render('Contactos', { contactos });
+  } catch (error) {
+    console.error("Error al listar los Contactos:", error);
+    res.status(500).render('error', { mensaje: 'Error al listar los contactos' });
+  }
+}
+
 }
 
 module.exports = ContactosController;

@@ -136,10 +136,13 @@
         <input type="text" name="nombre" id="nombre" placeholder="Nombre" required>
         <input type="email" name="email" id="email" placeholder="Email">
         <textarea name="mensaje" id="mensaje" cols="20" rows="5" placeholder="Comentario" required ></textarea>
-          <div class="g-recaptcha"  data-sitekey= "<%= token1 %>"></div>
+          <div class="g-recaptcha"  data-sitekey= "<%= Token1 %>"></div>
         <input type="submit" value="Enviar">
       </form>
       </div>
+        <div class="redi"><a href="/Login">Login</a></div>
+    <button onclick="window.location.href='/Login'">Entrar</button>
+    <button onclick="window.location.href='/Contactos'">Contactos</button>
     </footer>
 
 </html>

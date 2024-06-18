@@ -122,4 +122,14 @@ h4{
   width: 220px;
     }
 
+.redi {
+      display: block;
+      margin-top: 20px;
+      color: #0650f1e3;
+      text-decoration: none;
+      text-align: center;
+    }
     
+.redi:hover {
+      text-decoration: underline;
+    }  
