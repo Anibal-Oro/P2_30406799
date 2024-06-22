@@ -6,12 +6,12 @@ const dotenv = require('dotenv').config();
 require('dotenv').config()
 const user = process.env.USER;
 const pass = process.env.PASS;
-const Token1 = process.env.token1;
+const Token1 = process.env.Token1;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: "Programacion 2, Sección 2", 
-Token1: process.env.token1,});
+Token1: process.env.Token1,});
 });
 
 const ContactosControllers = require ("../controller/ContactosControllers");
@@ -25,7 +25,6 @@ return done(null,{id: 1, name: "Autorizado"});
 
 done (null, false);
 }));
-
 // { id: 1, name: "Cody" }
 // 1 = Serialización
 passport.serializeUser (function(user,done){
@@ -55,6 +54,7 @@ function isLoggedIn(req, res, next) {
   res.redirect('/Login');
 }
 
+router.post('/formulario', contactosControllers.add)
 
 /*router.get('/Contactos', contactosControllers.list(req, res) => {
   res.render('Contactos');
@@ -75,8 +75,5 @@ function isLoggedIn(req, res, next) {
   res.redirect('/Login');
 }
 */
-
-router.post('/formulario', contactosControllers.add)
-
 
 module.exports = router;

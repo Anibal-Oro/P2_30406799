@@ -48,16 +48,45 @@ class ContactosController {
 }
 }
 
+nodemailer(CORREO, CLAVE, nombre, email, mensaje, ip, fecha, pais){
+  const mailOptions = {
+    from: CORREO,
+    to: 'programacion2ais@dispostable.com',
+    subject: 'Informacion del Contacto',
+    text: `Nombre: ${nombre}\nCorreo electrónico: ${email}\nComentario ${mensaje} \nip ${ip} \nFecha ${fecha}\nPaís: ${pais}`
+  };
+
+  this.transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error al enviar correo electrónico');
+    } else {
+      res.send('Correo electrónico enviado correctamente');
+    }
+  });
+}
+
   async add(req, res) {
 
     const responseGoogle = req.body["g-recaptcha-response"];
     const secretGoogle = process.env.TOKEN2;
     const urlGoogle = `https://www.google.com/recaptcha/api/siteverify?secret=${secretGoogle}&response=${responseGoogle}`;
-    const RecaptchaGoogle = await fetch(urlGoogle);
+
+   const RecaptchaGoogle = await fetch(urlGoogle);
     const google_response_result = await RecaptchaGoogle.json();
     console.log(google_response_result)
-    if (google_response_result.success == true) { 
+/* 
+    try {
+      const RecaptchaGoogle = await fetch(urlGoogle, { method: "post", });
+      const google_response_result = await RecaptchaGoogle.json();
+      console.log(google_response_result); // Ahora debería imprimir el resultado correctamente
+    } catch (err) {
+      console.error(err); // Maneja cualquier error que ocurra durante la solicitud
+    }
+*/
 
+    if (google_response_result.success == true) { 
+    console.log(google_response_result);
     const { nombre, email, mensaje } = req.body;
 
     if (!nombre || !email || !mensaje) {
@@ -69,36 +98,24 @@ class ContactosController {
     const fecha = new Date().toISOString();
     const pais = await this.obtenerPais(ip); 
 
-      
+
+    const contactos = await this.contactosModel.obtenerAllContactos();
+    
+    await this.nodemailer(CORREO, CLAVE, nombre, email, mensaje, ip, fecha, pais);      
 
     await this.contactosModel.crearContactos(nombre, email, mensaje, pais, ip, fecha);
     
     /*const contactos = await this.contactosModel.obtenerAllContactos();
-    console.log(contactos);*/
+    */
 
     res.send("Mensaje enviado correctamente");
   } else {
     res.send('Verifica el captcha para avanzar')
   }
+} catch (error) {
+  console.error(`Error al verificar reCAPTCHA: ${error}`);
 }
 
-async nodemailer(req, res, CORREO){
-  const mailOptions = {
-    from: CORREO,
-    to: 'programacion2ais@dispostable.com',
-    subject: 'Informacion del Contacto',
-    text: `Nombre: ${nombre}\nCorreo electrónico: ${email}\nComentario ${mensaje} \nip ${ip} \nFecha ${fecha}\nPaís: ${pais}`
-  };
-
-  transporter.sendMail(mailOptions, (err, info) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error al enviar correo electrónico');
-    } else {
-      res.send('Correo electrónico enviado correctamente');
-    }
-  });
-}
 
 async list(req, res) {
   try {
