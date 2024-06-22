@@ -1,0 +1,186 @@
+body {
+    font-family: Arial, sans-serif;
+    color: #333333;
+    background-color: #f0f4f8;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  
+  h1 {
+    font-size: 2.5em;
+    color: #0650f1e3;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  ul {
+    list-style-type: none;
+    font-size: 1em;
+    color: #e74c3c;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  
+  ul li {
+    margin-bottom: 5px;
+  }
+  
+  form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  form div {
+    margin-bottom: 15px;
+  }
+  
+  form label {
+    font-weight: bold;
+    color: #0650f1e3;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  form input,
+  form textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  button{
+    position:relative;
+    width: 100px;
+    padding: 10px;
+    background: #0650f1e3;
+    color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 1em;
+  }
+
+  form button,
+  form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background: #0650f1e3;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+  }
+  
+  form button:hover,
+  form input[type="submit"]:hover {
+    background: #032d86e3;
+  }
+  
+  form a {
+    display: block;
+    margin-top: 20px;
+    color: #0650f1e3;
+    text-decoration: none;
+    text-align: center;
+  }
+  
+  form a:hover {
+    text-decoration: underline;
+  }
+  
+  .social-login-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #google-login,
+  #github-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    padding: 8px 15px;
+    background: #ffffff;
+    color: #757575;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s, border-color 0.3s;
+    text-decoration: none;
+    margin-bottom: 10px;
+  }
+  
+  #google-login img,
+  #github-login img {
+    height: 18px;
+    width: 18px;
+    margin-right: 10px;
+  }
+  
+  #google-login:hover,
+  #github-login:hover {
+    background: #f2f2f2;
+    border-color: #bcbcbc;
+  }
+  
+  #google-login:focus,
+  #github-login:focus {
+    outline: none;
+    border-color: #4285f4;
+  }
+  
+  #github-login {
+    background: #333333;
+    color: #ffffff;
+    border-color: #333333;
+  }
+  
+  #github-login:hover {
+    background: #24292e;
+    border-color: #1b1f23;
+  }
+  
+  @media (max-width: 600px) {
+    body {
+      padding: 10px;
+    }
+  
+    h1 {
+      font-size: 1.8em;
+    }
+  
+    form {
+      padding: 15px;
+    }
+  
+    form button,
+    form input[type="submit"] {
+      padding: 8px;
+    }
+  
+    #google-login,
+    #github-login {
+      padding: 6px 10px;
+      font-size: 0.8em;
+    }
+  
+    #google-login img,
+    #github-login img {
+      height: 16px;
+      width: 16px;
+    }
+  }

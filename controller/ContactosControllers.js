@@ -6,6 +6,9 @@ require('dotenv').config()
 const CORREO = process.env.CORREO;
 const CLAVE = process.env.CLAVE;
 
+//smtp.gmail.com
+//'programacion2ais@dispostable.com'
+
 class ContactosController {
   constructor() {
     this.contactosModel = new ContactosModel();
@@ -51,9 +54,9 @@ class ContactosController {
 nodemailer(CORREO, CLAVE, nombre, email, mensaje, ip, fecha, pais){
   const mailOptions = {
     from: CORREO,
-    to: 'programacion2ais@dispostable.com',
+    to: [CORREO, email],
     subject: 'Informacion del Contacto',
-    text: `Nombre: ${nombre}\nCorreo electrónico: ${email}\nComentario ${mensaje} \nip ${ip} \nFecha ${fecha}\nPaís: ${pais}`
+    text: `Nombre: ${nombre}\nCorreo electrónico: ${email}\nComentario ${mensaje} \nFecha ${fecha}\nPaís: ${pais}`
   };
 
   this.transporter.sendMail(mailOptions, (err, info) => {
@@ -117,14 +120,14 @@ nodemailer(CORREO, CLAVE, nombre, email, mensaje, ip, fecha, pais){
 }
 
 
-async list(req, res) {
+  async list(req, res) {
   try {
     console.log('ContactosModel en list:', this.contactosModel); // Verificar inicialización
     const contactos = await this.contactosModel.obtenerAllContactos();
     res.render('Contactos', { contactos });
   } catch (error) {
-    console.error("Error al listar los Contactos:", error);
-    res.status(500).render('error', { mensaje: 'Error al listar los contactos' });
+    console.error("Error al mostrar los Contactos:", error);
+    res.status(500).render('error', { mensaje: 'Error al mostrar los contactos' });
   }
 }
 

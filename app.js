@@ -9,11 +9,22 @@ const passport = require('passport');
 const session = require('express-session' );
 const LocalStrategy = require('passport-local').Strategy;
 
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 
 var app = express();
+
+app.get('/auth/google',passport.authenticate('google', {scope: ['profile'] }));
+app.route("/auth/google/Contactos")
+  .get (passport.authenticate('google', {failureRedirect: "/Login" }),
+    function (req, res) {
+       res.redirect("/Contactos");
+    });
+
 
 app.use(cookieParser( 'mi ultra hiper secreto'));
 

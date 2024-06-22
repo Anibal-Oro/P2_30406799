@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' href='/stylesheets/inicio.css' />
   <title>Login</title>
 </head>
 <body>
 
-  <a href="/">Volver a CV</a>
+  <button href="/">Volver a CV </button>
   <div class="redireccion">
     <h1>Iniciar sesión</h1>
     <form action="/login" method="POST">
@@ -17,6 +17,12 @@
       <label for="Contraseña">Constraseña:</label>
       <input type="password" id="password" name="password"><br><br>
       <input type="submit" value="Iniciar sesión">
+
+<!--autenticación google -->
+<a id="google-login" href="/auth/google">
+  <img src="https://th.bing.com/th/id/OIP.Fll7WPtNT6jrz1oBP8GbCgHaHj?rs=1&pid=ImgDetMain" alt="Google Logo">
+  Iniciar sesión con Google
+</a>
     </form>
   </div>
   
