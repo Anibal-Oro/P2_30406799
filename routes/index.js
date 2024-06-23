@@ -9,6 +9,7 @@ const pass = process.env.PASS;
 const Token1 = process.env.Token1;
 const TOKEN3 = process.env.TOKEN3;
 const TOKEN4 = process.env.TOKEN4;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 // GET home page. //
 router.get('/', function(req, res, next) {
@@ -19,40 +20,28 @@ Token1: process.env.Token1,});
 const ContactosControllers = require ("../controller/ContactosControllers");
 const contactosControllers = new ContactosControllers();
 const PassportLocal = require('passport-local').Strategy;
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
 
 
 // Autenticacion Local //
-passport.use(new PassportLocal(function(username, password, done){
- if (username === user && password === pass)
-return done(null,{id: 1, name: "Autorizado"});
-
-done (null, false);
-}));
-// { id: 1, name: "Cody" } //
-// 1 = Serialización //
-passport.serializeUser (function(user,done){
-done (null, user. id);
-})
-// Deserialización //
-passport.deserializeUser(function(id, done){
-  done (null, {id: 1, name: "Autorizado" });
-  })
-
-
-// Autenticación con Google //
-passport.use(new GoogleStrategy({
-  clientID: TOKEN3,
-  clientSecret: TOKEN4,
-  callbackURL: "http://localhost:3000/auth/google/Contactos"
-},
-function(accessToken, refreshToken, profile, cb) {
-  findOrCreate({ googleId: profile.id }, function (err, user) {
-    return cb(err, user);
-  });
-}
+passport.use(new PassportLocal(
+  function(username, password, done){
+   if (username === user && password === pass){
+      return done(null,{id: 1, username: user});
+   } else {
+      return done(null, false, { message: 'Usuario o contraseña incorrectos' });
+    }
+    }
 ));
-
+// Serialización
+passport.serializeUser (function(user,done){
+  done (null, user. id);
+  })
+  // Deserialización
+  passport.deserializeUser(function(id, done){
+    done (null, {id: 1, name: " aaa " });
+    })
+  
 
 // Rutas //
 router.get('/Login', (req, res) => {
@@ -65,29 +54,7 @@ router.post('/Login', passport.authenticate('local', {
 }));
 
 
-/* auth google
-app.get('/auth/google',passport.authenticate('google', {scope: ['profile'] }));
-  console.log(profile)
-app.route("/auth/google/Contactos")
-  .get (passport.authenticate('google', {failureRedirect: "/Login" }),
-    function (req, res) {
-       res.redirect("/Contactos");
-    });
-*/
-
 //passport.use(Usuario.createStrategy);
-// serializar //
-passport.serializeUser(function(user, cb){
- process.nextTick(function() {
-    cb(null, {id: user. id }); 
-  });
-});
-// deserializar //
-passport.deserializeUser(function(user, cb){
-  process.nextTick(function() {
-    return cb(null, user);
-    });
-});
 
 router.get('/Contactos', isLoggedIn, contactosControllers.list);
 
@@ -98,18 +65,44 @@ function isLoggedIn(req, res, next) {
   res.redirect('/Login');
 }
 
-router.post('/formulario', contactosControllers.add)
 
-/*router.get('/Contactos', contactosControllers.list(req, res) => {
-  res.render('Contactos');
-  //var sql="";
+// Autenticación con Google //
+passport.use(new GoogleStrategy({
+  clientID: TOKEN3,
+  clientSecret: TOKEN4,
+  callbackURL: ["http://localhost:3000/auth/google/Contactos", "https://p2-30406799.onrender.com/auth/google/Contactos"]
+},
+function(accessToken, refreshToken, profile, done) {
+    return done (null, profile);
+  }
+));
+
+
+// Serialización //
+passport.serializeUser (function(user,done){
+done (null, user. id);
+})
+// Deserialización //
+/*passport.deserializeUser(function(id, done){
+  done (null, {id: 1, name: user});
+  })
+*/
+
+passport.deserializeUser(function(id, done) {
+  const user = { id: 1, username: user };
+  done(null, user);
 });
 
-router.get('/Contactos', (req, res, next) =>{
-  if (req.isAuthenticated()) return next();
-  res.redirect ("/Login")}, 
-  (req, res)=>(contactosControllers.list));
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
 
-*/
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+
+router.post('/formulario', contactosControllers.add)
+
 
 module.exports = router;

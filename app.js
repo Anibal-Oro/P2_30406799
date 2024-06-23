@@ -3,10 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const dotenv = require('dotenv').config();
 require('dotenv').config()
+const TOKEN5 = process.env.TOKEN5;
 
 const passport = require('passport');
-const session = require('express-session' );
+const session = require('express-session');
 const LocalStrategy = require('passport-local').Strategy;
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -18,20 +20,15 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
-app.get('/auth/google',passport.authenticate('google', {scope: ['profile'] }));
-app.route("/auth/google/Contactos")
-  .get (passport.authenticate('google', {failureRedirect: "/Login" }),
-    function (req, res) {
-       res.redirect("/Contactos");
-    });
-
-
-app.use(cookieParser( 'mi ultra hiper secreto'));
+app.use(cookieParser( TOKEN5));
 
 app.use(session({
-  secret: 'keyboard cat',
+  secret: "TOKEN5",
   resave: false,
   saveUninitialized: true,}));
+
+  
+
 
 //require('./passport')(passport);
 app.use(passport.initialize());
@@ -50,6 +47,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+app.get('/auth/google',passport.authenticate('google', {scope: ['profile'] }));
+app.route("/auth/google/Contactos")
+  .get (passport.authenticate('google', {failureRedirect: "/Login" }),
+    function (req, res) {
+       res.redirect("/Contactos");
+    });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
