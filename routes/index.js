@@ -70,7 +70,7 @@ function isLoggedIn(req, res, next) {
 passport.use(new GoogleStrategy({
   clientID: TOKEN3,
   clientSecret: TOKEN4,
-  callbackURL: ["http://localhost:3000/auth/google/Contactos", "https://p2-30406799.onrender.com/auth/google/Contactos"]
+  callbackURL:"https://p2-30406799.onrender.com/auth/google/Contactos"
 },
 function(accessToken, refreshToken, profile, done) {
     return done (null, profile);
